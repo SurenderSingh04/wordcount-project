@@ -6,6 +6,8 @@ import operator
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
+import base64
+from io import BytesIO
 
 
 # def homepage(request):
@@ -42,20 +44,19 @@ def count(request):
 
     print(df.head())
 
-    t = np.arange(0.0, 2.0, 0.01)
-    s = 1 + np.sin(2 * np.pi * t)
+    fig = plt.figure()
+    menstd = (2, 3, 4, 1, 2)
+    menstd1 = (2, 3, 4, 1, 2)
+    plt.bar(menstd1, menstd)
+    # plot sth
 
-    plt.plot(t, s)
-
-    plt.xlabel('time (s)')
-    plt.ylabel('voltage (mV)')
-    plt.title('About as simple as it gets, folks')
-    plt.grid(True)
-    plt.savefig("C:/Users/EW682YF/PycharmProjects/wordcount-project/templates/test.png")
-
+    tmpfile = BytesIO()
+    fig.savefig(tmpfile, format='png')
+    encoded = base64.b64encode(tmpfile.getvalue()).decode('utf-8')
+    html = '<img src=\'data:image/png;base64,{}\'>'.format(encoded)
     # Plot Over(Return to HTML Page) *********************************************************************
     return render(request, 'count.html',
-                  {'fulltext': fulltext, 'count': len(wordlist), 'sortedwords': sortedwords, })
+                  {'fulltext': fulltext, 'count': len(wordlist), 'sortedwords': sortedwords, 'htmlgraph': html})
 
 
 # Call to About US HTML PAge
