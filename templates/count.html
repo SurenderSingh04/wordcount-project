@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+
+<h1>There are Total {{count}} words in your test</h1>
+
+<a href="{% url 'home' %}">Start Again</a>
+<a href="{% url 'about' %}">About Us</a>
+
+<h1> YOUR TEXT IS: </h1>
+{{fulltext}}
+
+<h1>Word Count:</h1>
+{% for word, counttotal in sortedwords%}
+<h3>{{word}}: {{counttotal}}</h3>
+{% endfor %}
+
+
+
+
+
